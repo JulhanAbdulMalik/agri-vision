@@ -61,34 +61,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     await app.renderPage();
   });
 });
-<<<<<<< HEAD
-=======
-
-const emailBtn = document.getElementById("btn-submit-email");
-const emailInput = document.getElementById("email");
-
-emailBtn.addEventListener('click', () => {
-  const email = emailInput.value.trim();
-  
-  if (email === "") {
-    alert("Anda belum mengisi email");
-    return;
-  }
-  
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-  if (!emailRegex.test(email)) {
-    alert("Format email Anda salah");
-    return;
-  }
-  
-  alert("Terima kasih telah mengirimkan email Anda!");
-  emailInput.value = "";
-});
-
-const navCommunity = document.getElementById('nav-community');
-navCommunity.addEventListener('click', (e) => {
-  e.preventDefault(); 
-  alert('Komunitas akan segara hadir!');
-})
->>>>>>> origin/ui-ux
