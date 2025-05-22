@@ -3,7 +3,7 @@ import AboutPage from '../pages/about-page';
 import DetectionPage from '../pages/detection-page';
 import EducationPage from '../pages/education-page';
 import EducationDetailPage from '../pages/education-detail-page';
-import DetectionSpecificPage from '../pages/detection-spesific-pafe';
+import DetectionSpecificPage from '../pages/detection-spesific-page';
 
 const routes = {
   '/': new HomePage(),
