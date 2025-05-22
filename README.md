@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # agri-vision
 AgriVision: Aplikasi Petani Cerdas untuk Deteksi Penyakit Tanaman dan Edukasi Pertanian
 =======
+=======
+>>>>>>> origin/ui-ux
 # AgriVision
 
 Title: AgriVision - Aplikasi Petani Cerdas untuk Deteksi Penyakit Tanaman dan Edukasi Pertanian
@@ -37,4 +40,7 @@ agri-vision/
 ├── webpack.dev.js          # Webpack development configuration
 └── webpack.prod.js         # Webpack production configuration
 ```
+<<<<<<< HEAD
 >>>>>>> 59c2277 (Starter Project)
+=======
+>>>>>>> origin/ui-ux
