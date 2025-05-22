@@ -1,13 +1,36 @@
 function extractPathnameSegments(path) {
   const splitUrl = path.split('/');
 
+  // Handle detection paths
+  if (splitUrl[1] === 'detection' && splitUrl[2]) {
+    return {
+      resource: splitUrl[1],
+      id: splitUrl[2],
+      fullPath: `/detection/${splitUrl[2]}`
+    };
+  }
+  
+  // Handle education paths
+  if (splitUrl[1] === 'education' && splitUrl[2]) {
+    return {
+      resource: splitUrl[1],
+      id: splitUrl[2],
+      fullPath: `/education/:id`
+    };
+  }
+
   return {
     resource: splitUrl[1] || null,
     id: splitUrl[2] || null,
+    fullPath: `/${splitUrl[1] || ''}`
   };
 }
 
 function constructRouteFromSegments(pathSegments) {
+  if (pathSegments.fullPath) {
+    return pathSegments.fullPath;
+  }
+  
   let pathname = '';
 
   if (pathSegments.resource) {
