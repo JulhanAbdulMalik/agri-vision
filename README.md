@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# agri-vision
-AgriVision: Aplikasi Petani Cerdas untuk Deteksi Penyakit Tanaman dan Edukasi Pertanian
-=======
-=======
->>>>>>> origin/ui-ux
 # AgriVision
-
-Title: AgriVision - Aplikasi Petani Cerdas untuk Deteksi Penyakit Tanaman dan Edukasi Pertanian
+AgriVision: Aplikasi Petani Cerdas untuk Deteksi Penyakit Tanaman dan Edukasi Pertanian
 
 AgriVision adalah aplikasi petani cerdas berbasis web yang memanfaatkan machine learning untuk mendeteksi penyakit tanaman melalui foto serta menyediakan edukasi pertanian, forum komunitas, dan informasi harga pasar guna mendukung pertanian yang modern dan berkelanjutan. Proyek ini bertujuan mendukung swasembada pangan nasional dalam membantu petani Indonesia meningkatkan produktivitas dan pengambilan keputusan secara lebih cepat dan tepat.
 
@@ -40,7 +32,3 @@ agri-vision/
 ├── webpack.dev.js          # Webpack development configuration
 └── webpack.prod.js         # Webpack production configuration
 ```
-<<<<<<< HEAD
->>>>>>> 59c2277 (Starter Project)
-=======
->>>>>>> origin/ui-ux
