@@ -7,7 +7,7 @@ export default class EducationDetailPage {
     return `
       <section class="edu-detail-container">
         <div class="back-button-container">
-          <button id="back-button" class="back-button">← Kembali</button>
+          <button id="back-button" class="back-button">Kembali</button>
         </div>
         <div id="disease-detail" class="disease-detail">
           <!-- Content will be loaded dynamically -->
@@ -17,14 +17,14 @@ export default class EducationDetailPage {
   }
 
   async afterRender() {
-    // Get case name from URL
-    const { id } = await import('../routes/url-parser.js').then(module => module.parseActivePathname());
+    const { id } = await import('../routes/url-parser.js').then((module) =>
+      module.parseActivePathname(),
+    );
     this.caseName = id.replace(/-/g, ' ');
 
-    // Load database
     const { database } = await import('../data/course-database.js');
-    const disease = database.find(item => 
-      item.case.toLowerCase() === this.caseName.toLowerCase()
+    const disease = database.find(
+      (item) => item.case.toLowerCase() === this.caseName.toLowerCase(),
     );
 
     if (disease) {
@@ -32,7 +32,6 @@ export default class EducationDetailPage {
       detailContainer.innerHTML = this.createDiseaseDetailHTML(disease);
     }
 
-    // Add back button functionality
     document.getElementById('back-button').addEventListener('click', () => {
       window.history.back();
     });
@@ -41,7 +40,11 @@ export default class EducationDetailPage {
   createDiseaseDetailHTML(disease) {
     return `
       <h1 class="disease-title">${disease.case}</h1>
-      <img src="/images/course-images/${disease.case.toLowerCase().replace(/\s+/g, '-')}.jpg" class="disease-image" alt="${disease.case}">
+      <br>
+
+      <div class="disease-image-container">
+        <img src="/images/course-images/${disease.case.toLowerCase().replace(/\s+/g, '-')}.jpg" class="disease-image" alt="${disease.case}">
+      </div>
       
       <div class="disease-section">
         <h2>Gejala</h2>
@@ -64,7 +67,7 @@ export default class EducationDetailPage {
       <div class="disease-section">
         <h2>Pencegahan</h2>
         <ul>
-          ${disease.pencegahan.map(item => `<li>${item}</li>`).join('')}
+          ${disease.pencegahan.map((item) => `<li>${item}</li>`).join('')}
         </ul>
       </div>
 

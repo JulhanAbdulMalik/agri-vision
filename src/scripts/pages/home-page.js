@@ -1,90 +1,117 @@
 export default class HomePage {
   async render() {
     return `
-<<<<<<< HEAD
-      <section class="container">
-        <h1>Home Page</h1>
-        <img class="logo-home-page" src="images/Logo AgriVision-07.png" alt="">
-        
-        <img class="logo-home-page" src="images/kegiatan.png" alt="">
-=======
       <section class="home-container">
-        <div class="card-image">
-          <img class="detection-image" src="/images/rice-plant-2.jpg" alt="rice-plant"></img>
-        </div>
         <div class="home-desc">
           <div class="header-container">
             <p class="welcome" id="welcome">Welcome to AgriVision</p>
           </div>
-          <h1 class="tagline">Aplikasi Cerdas Untuk Petani Modern</h1>
-          <p class="description">Deteksi penyakit tanaman dan Tingkatkan pengetahuan pertanian Anda.
-          Unggah foto tanaman, dapatkan diagnosis instan, dan pelajari solusi pertanian modern.</p>
-          <a href="#about-container" class="discover-link">Discover More</a>
+          <h1 class="tagline">
+            Aplikasi Petani Cerdas untuk Deteksi Penyakit Tanaman dan Edukasi Pertanian
+          </h1>
+          <p class="description">
+            Deteksi penyakit tanaman dan tingkatkan pengetahuan pertanian Anda.
+            Unggah foto tanaman, dapatkan diagnosis instan, dan pelajari solusi pertanian modern.
+          </p>
+          <a href="#home-about-container" class="discover-link">Pelajari lebih lanjut</a>
+          <img src="../../images/dashboard.jpg" class="dashboard-img" alt="farmer image" />
         </div>
       </section>
-      <section class="about-container" id="about-container">
+
+      <section class="home-about-container" id="home-about-container">
         <div class="about-wrapper">
           <div class="about-desc" id="about-desc">
-            <h2 class="about-tagline">Kami Percaya, Teknologi Bisa Jadi Sahabat Terbaik Petani dan Pecinta Tanaman</h2>
-            <p class="about-text">Kami tidak hanya ingin membantu saat tanamanmu sakit. Kami ingin kamu mengerti tanamanmu — dari akarnya hingga daunnya.</p>
+            <h2 class="about-tagline">
+              Kami Percaya, Teknologi Bisa Jadi Sahabat Terbaik Petani dan Pecinta Tanaman
+            </h2>
+            <p class="about-text">
+              Di era pertanian modern, kami hadir untuk memberikan solusi yang tidak hanya cerdas, tapi juga ramah bagi petani dan tanaman. <br><br>
+              Kami percaya bahwa setiap tanaman punya cerita dan teknologi bisa membantu kamu mendengarnya.
+              Mulai dari mengenali gejala penyakit, merawat tanah, hingga memahami kebutuhan nutrisi
+              kami hadir bukan sekadar aplikasi, tapi mitra bertani yang setia.
+            </p>
           </div>
           <div class="about-img-wrapper">
-            <img src="../../images/farmer.png" class="farmer-img" id="farmer-img" alt="farmer image"></img>
+            <img src="../../images/farmer.png" class="farmer-img" id="farmer-img" alt="farmer image" />
           </div>
         </div>
       </section>
-      <section class="our-service" id="our-service">
-        <h1 class="our-service-title">Our Service</h1>
 
+      <section class="our-service" id="our-service">
+        <h2 class="our-service-title">Tingkatkan Hasil Pertanian Anda</h2>
         <div class="service-container">
-          
+
           <div class="service-item">
             <div class="image-card">
-              <img src="../../images/detection.jpg" class="img-detection">
+              <img src="../../images/detection.jpg" class="img-detection" />
             </div>
             <div class="featured-card">
               <h3 class="card-title">Deteksi Penyakit Tanaman</h3>
-              <p>Unggah foto tanamanmu, sistem kami akan menganalisisnya secara otomatis untuk memberikan diagnosis cepat dan akurat. Dapatkan informasi lengkap mengenai jenis penyakit, gejala, dan solusi penanganannya — semua dalam hitungan detik, langsung dari perangkatmu.</p>
-              <a href="#/detection" class="try-now">Coba Sekarang</a>
+              <p>
+                Unggah foto tanamanmu, sistem kami akan menganalisisnya secara otomatis untuk memberikan diagnosis cepat dan akurat.
+                Dapatkan informasi lengkap mengenai jenis penyakit, gejala, dan solusi penanganannya semua dalam hitungan detik, langsung dari perangkatmu.
+              </p>
+              <a href="#/detection" class="btn-try-now">Coba Sekarang</a>
             </div>
+            
           </div>
-
-          <div class="service-item reverse">
+          <div class="service-item">
+            <div class="image-card">
+              <img src="../../images/education.png" class="img-detection" />
+            </div>
             <div class="featured-card">
               <h3 class="card-title">Edukasi Pertanian</h3>
-              <p>Pelajari teknik budidaya berbagai jenis tanaman, strategi pencegahan hama dan penyakit, serta tips pertanian modern yang dapat meningkatkan hasil panen dan menjaga keberlanjutan lingkungan.</p>
-              <a href="#/education" class="try-now">Belajar Sekarang</a>
+              <p>
+                Pelajari teknik budidaya berbagai jenis tanaman, strategi pencegahan hama dan penyakit,
+                serta tips pertanian modern yang dapat meningkatkan hasil panen dan menjaga keberlanjutan lingkungan.
+              </p>
+              <a href="#/education" class="btn-try-now">Belajar Sekarang</a>
             </div>
-            <div class="image-card">
-              <img src="../../images/education.png" class="img-detection">
-            </div>
+            
           </div>
 
           <div class="service-item">
             <div class="image-card">
-              <img src="../../images/farmers-community.jpg" class="img-detection">
+              <img src="../../images/farmers-community.jpg" class="img-detection" />
             </div>
             <div class="featured-card">
               <h3 class="card-title">Komunitas Petani</h3>
-              <p>Bergabunglah dengan komunitas petani digital yang saling berbagi pengalaman, solusi, dan inspirasi. Di sini, kamu bisa berdiskusi tentang masalah pertanian, bertukar tips budidaya, dan membangun jaringan dengan petani dari berbagai daerah.</p>
-              <a href="##" class="try-now" id="trynow-btn-community">Gabung Sekarang</a>
+              <p>
+                Bergabunglah dengan komunitas petani digital yang saling berbagi pengalaman, solusi, dan inspirasi.
+                Di sini, kamu bisa berdiskusi tentang masalah pertanian, bertukar tips budidaya,
+                dan membangun jaringan dengan petani dari berbagai daerah.
+              </p>
+              <a href="##" class="btn-try-now" id="trynow-btn-community">Gabung Sekarang</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="testimonial-section">
+        <div class="testimonial-container">
+          <div class="testimonial-image">
+            <img src="../../images/testimonial-image.jpg" alt="Foto Petani">
+          </div>
+          <div class="testimonial-content">
+            <p class="testimonial-text">
+              Aplikasi ini memberikan analisis dan solusi yang sangat baik untuk tanaman saya. Saya sangat merekomendasikannya kepada siapa pun yang ingin memperbaiki kesehatan tanaman mereka!
+            </p>
+            <div class="testimonial-author">
+              <p class="author-name">Asep Sukma</p>
+              <p class="author-info">Petani | Sukabumi</p>
             </div>
           </div>
         </div>
->>>>>>> origin/ui-ux
       </section>
     `;
   }
 
   async afterRender() {
-    // Do your job here
-<<<<<<< HEAD
-=======
     const buttonCommunity = document.getElementById('trynow-btn-community');
     buttonCommunity.addEventListener('click', (e) => {
-      e.preventDefault(); 
-      alert("Fitur komunitas akan segera hadir!");
+      e.preventDefault();
+      alert('Fitur komunitas akan segera hadir!');
     });
->>>>>>> origin/ui-ux
   }
 }

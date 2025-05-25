@@ -17,6 +17,7 @@ export default class DetectionPage {
               <p>🌶️</p>
               <button class="detection-btn" data-plant="cabai">Cabai</button>
             </div>
+            
           </div>
         </div>
       </section>
@@ -24,7 +25,7 @@ export default class DetectionPage {
   }
 
   async afterRender() {
-    document.querySelectorAll('.detection-btn').forEach(button => {
+    document.querySelectorAll('.detection-btn').forEach((button) => {
       button.addEventListener('click', () => {
         const plantType = button.getAttribute('data-plant');
         window.location.hash = `#/detection/${plantType}`;

@@ -3,8 +3,8 @@ export default class EducationPage {
     return `
       <section class="edu-container">
       <div class="search">
-        <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari">
-        <button type="submit" class="btn-search" id="btn-search">Cari</button>
+        <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari penyakit tanaman">
+        <button type="submit" class="btn-search" id="btn-search">Mencari</button>
       </div>
       <div class="course-container" id="course-container">
         <!-- Cards will be inserted here dynamically -->
@@ -15,14 +15,11 @@ export default class EducationPage {
   }
 
   async afterRender() {
-    // Load disease data
     const courseContainer = document.getElementById('course-container');
-    
-    // Import the database (you might need to adjust the path)
+
     const { database } = await import('../data/course-database.js');
-    
-    // Create cards for each disease
-    database.forEach(disease => {
+
+    database.forEach((disease) => {
       const card = document.createElement('div');
       card.className = 'course-card';
       card.innerHTML = `
@@ -32,21 +29,19 @@ export default class EducationPage {
         <div class="card-text-container">
           <h3 class="card-title">${disease.case}</h3>
           <p class="card-feature">${disease.ciri}</p>
+          <button class="card-btn" data-case="${disease.case}">Baca Selengkapnya</button>
         </div>
-        <button class="card-btn" data-case="${disease.case}">Baca Selengkapnya</button>
       `;
       courseContainer.appendChild(card);
     });
 
-    // Add click event listeners to all buttons
-    document.querySelectorAll('.card-btn').forEach(button => {
+    document.querySelectorAll('.card-btn').forEach((button) => {
       button.addEventListener('click', (event) => {
         const caseName = event.target.getAttribute('data-case');
         window.location.hash = `#/education/${caseName.toLowerCase().replace(/\s+/g, '-')}`;
       });
     });
 
-    // Add search functionality
     document.getElementById('btn-search').addEventListener('click', () => {
       this.filterCourses();
     });
@@ -59,10 +54,12 @@ export default class EducationPage {
   }
 
   filterCourses() {
-    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    const searchTerm = document
+      .getElementById('search-bar')
+      .value.toLowerCase();
     const cards = document.querySelectorAll('.course-card');
-    
-    cards.forEach(card => {
+
+    cards.forEach((card) => {
       const title = card.querySelector('.card-title').textContent.toLowerCase();
       if (title.includes(searchTerm)) {
         card.style.display = 'block';

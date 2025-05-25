@@ -20,14 +20,14 @@ export default class DetectionSpecificPage {
         
         <div class="camera-preview-container" style="display:none;">
           <video id="camera-preview" autoplay playsinline></video>
-          <button type="button" id="capture-btn" class="btn">Ambil Foto</button>
+          <button type="button" id="capture-btn" class="btn-take-photo">Ambil Foto</button>
         </div>
         
         <div class="image-preview-container">
           <canvas id="photo-canvas" style="display:none;"></canvas>
           <input type="file" id="gallery-input" accept="image/*" style="display:none;">
           <img id="photo-preview" class="photo-preview" style="display:none;">
-          <button type="button" id="retake-btn" class="btn" style="display:none;">Ambil Ulang</button>
+          <button type="button" id="retake-btn" class="btn-take-photo" style="display:none;">Ambil Ulang</button>
         </div>
         
         <div class="action-buttons">
@@ -39,39 +39,38 @@ export default class DetectionSpecificPage {
   }
 
   async afterRender() {
-    this.mediaSourceSelect = document.getElementById("media-source");
-    this.cameraPreview = document.getElementById("camera-preview");
-    this.cameraContainer = document.querySelector(".camera-preview-container");
-    this.galleryInput = document.getElementById("gallery-input");
-    this.photoPreview = document.getElementById("photo-preview");
-    this.retakeBtn = document.getElementById("retake-btn");
-    this.captureBtn = document.getElementById("capture-btn");
-    this.detectBtn = document.getElementById("detect-btn");
-    this.cancelBtn = document.getElementById("cancel-btn");
+    this.mediaSourceSelect = document.getElementById('media-source');
+    this.cameraPreview = document.getElementById('camera-preview');
+    this.cameraContainer = document.querySelector('.camera-preview-container');
+    this.galleryInput = document.getElementById('gallery-input');
+    this.photoPreview = document.getElementById('photo-preview');
+    this.retakeBtn = document.getElementById('retake-btn');
+    this.captureBtn = document.getElementById('capture-btn');
+    this.detectBtn = document.getElementById('detect-btn');
+    this.cancelBtn = document.getElementById('cancel-btn');
 
-    // Setup event listeners
-    this.mediaSourceSelect.addEventListener("change", (e) => {
+    this.mediaSourceSelect.addEventListener('change', (e) => {
       this.handleMediaSourceChange(e.target.value);
     });
 
-    this.captureBtn.addEventListener("click", () => {
+    this.captureBtn.addEventListener('click', () => {
       this.capturePhoto();
     });
 
-    this.retakeBtn.addEventListener("click", () => {
+    this.retakeBtn.addEventListener('click', () => {
       this.resetPhotoInput();
     });
 
-    this.detectBtn.addEventListener("click", () => {
+    this.detectBtn.addEventListener('click', () => {
       this.detectPlant();
     });
 
-    this.cancelBtn.addEventListener("click", () => {
+    this.cancelBtn.addEventListener('click', () => {
       this.cleanup();
       window.history.back();
     });
 
-    this.galleryInput.addEventListener("change", (e) => {
+    this.galleryInput.addEventListener('change', (e) => {
       if (e.target.files.length > 0) {
         this.displayPhotoPreview(URL.createObjectURL(e.target.files[0]));
       }
@@ -82,88 +81,91 @@ export default class DetectionSpecificPage {
     this.stopCamera();
 
     if (this.mediaSourceSelect) {
-      this.mediaSourceSelect.removeEventListener("change", this.handleMediaSourceChange);
+      this.mediaSourceSelect.removeEventListener(
+        'change',
+        this.handleMediaSourceChange,
+      );
     }
     if (this.captureBtn) {
-      this.captureBtn.removeEventListener("click", this.capturePhoto);
+      this.captureBtn.removeEventListener('click', this.capturePhoto);
     }
     if (this.retakeBtn) {
-      this.retakeBtn.removeEventListener("click", this.resetPhotoInput);
+      this.retakeBtn.removeEventListener('click', this.resetPhotoInput);
     }
     if (this.detectBtn) {
-      this.detectBtn.removeEventListener("click", this.detectPlant);
+      this.detectBtn.removeEventListener('click', this.detectPlant);
     }
     if (this.cancelBtn) {
-      this.cancelBtn.removeEventListener("click", this.cleanup);
+      this.cancelBtn.removeEventListener('click', this.cleanup);
     }
     if (this.galleryInput) {
-      this.galleryInput.removeEventListener("change", this.handleImageUpload);
+      this.galleryInput.removeEventListener('change', this.handleImageUpload);
     }
   }
 
   async handleMediaSourceChange(source) {
     this.stopCamera();
 
-    // Hide all elements first
-    this.cameraContainer.style.display = "none";
-    this.photoPreview.style.display = "none";
-    this.retakeBtn.style.display = "none";
+    this.cameraContainer.style.display = 'none';
+    this.photoPreview.style.display = 'none';
+    this.retakeBtn.style.display = 'none';
 
-    if (source === "none") {
+    if (source === 'none') {
       return;
-    } else if (source === "camera"){
-      this.cameraContainer.style.display = "block";
+    } else if (source === 'camera') {
+      this.cameraContainer.style.display = 'block';
       try {
         this.mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment"},
+          video: { facingMode: 'environment' },
           audio: false,
         });
 
-        if (this.cameraPreview){
+        if (this.cameraPreview) {
           this.cameraPreview.srcObject = this.mediaStream;
         }
-      } catch (error){
-        console.error("Error accessing camera:", error);
-        alert("Tidak dapat mengakses kamera. Silakan coba lagi atau pilih dari galeri.");
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        alert(
+          'Tidak dapat mengakses kamera. Silakan coba lagi atau pilih dari galeri.',
+        );
 
-        this.mediaSourceSelect.value = "gallery";
-        this.handleMediaSourceChange("gallery");
+        this.mediaSourceSelect.value = 'gallery';
+        this.handleMediaSourceChange('gallery');
       }
-    } else if (source === "gallery"){
+    } else if (source === 'gallery') {
       this.galleryInput.click();
     }
   }
 
   capturePhoto() {
-    const canvas = document.getElementById("photo-canvas");
-    const context = canvas.getContext("2d");
+    const canvas = document.getElementById('photo-canvas');
+    const context = canvas.getContext('2d');
 
     canvas.width = this.cameraPreview.videoWidth;
     canvas.height = this.cameraPreview.videoHeight;
     context.drawImage(this.cameraPreview, 0, 0, canvas.width, canvas.height);
 
-    this.displayPhotoPreview(canvas.toDataURL("image/jpeg"));
+    this.displayPhotoPreview(canvas.toDataURL('image/jpeg'));
     this.stopCamera();
-    this.cameraContainer.style.display = "none";
+    this.cameraContainer.style.display = 'none';
   }
 
   displayPhotoPreview(imageSrc) {
     this.photoPreview.src = imageSrc;
-    this.photoPreview.style.display = "block";
-    this.retakeBtn.style.display = "block";
+    this.photoPreview.style.display = 'block';
+    this.retakeBtn.style.display = 'block';
     this.selectedImage = imageSrc;
   }
 
   resetPhotoInput() {
-    this.photoPreview.src = "";
-    this.photoPreview.style.display = "none";
-    this.retakeBtn.style.display = "none";
-    this.galleryInput.value = "";
+    this.photoPreview.src = '';
+    this.photoPreview.style.display = 'none';
+    this.retakeBtn.style.display = 'none';
+    this.galleryInput.value = '';
     this.selectedImage = null;
 
-    // Reset to camera option
-    this.mediaSourceSelect.value = "camera";
-    this.handleMediaSourceChange("camera");
+    this.mediaSourceSelect.value = 'camera';
+    this.handleMediaSourceChange('camera');
   }
 
   stopCamera() {
@@ -182,32 +184,33 @@ export default class DetectionSpecificPage {
         this.cameraPreview.load();
       }
     } catch (error) {
-      console.error("Error stopping camera:", error);
+      console.error('Error stopping camera:', error);
     }
   }
 
   async detectPlant() {
     if (!this.selectedImage) {
-      alert("Silakan ambil atau unggah gambar terlebih dahulu");
+      alert('Silakan ambil atau unggah gambar terlebih dahulu');
       return;
     }
-    
-    // Show loading state
+
     this.detectBtn.disabled = true;
     this.detectBtn.textContent = 'Memproses...';
-    
+
     try {
       // Here you would typically send the image to your backend API
       // const result = await yourDetectionAPI(this.selectedImage, this.plantType);
-      
+
       // For now, we'll simulate a detection result
       setTimeout(() => {
-        alert(`Deteksi ${this.plantType} berhasil! Hasil akan ditampilkan di sini.`);
-        
+        alert(
+          `Deteksi ${this.plantType} berhasil! Hasil akan ditampilkan di sini.`,
+        );
+
         // Reset button
         this.detectBtn.disabled = false;
         this.detectBtn.textContent = 'Deteksi';
-        
+
         // Here you would navigate to results page or show results
         // window.location.hash = `#/detection-result/${this.plantType}`;
       }, 2000);

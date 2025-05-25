@@ -2,7 +2,7 @@ import routes from '../scripts/routes/routes';
 import { getActiveRoute } from '../scripts/routes/url-parser';
 
 // CSS imports
-import '../assets/styles/styles.css';
+import '../assets/styles/main.css';
 
 // Class App untuk mengatur Navigasi dan Isi Halaman
 class App {
