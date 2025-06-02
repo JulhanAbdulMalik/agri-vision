@@ -1,3 +1,5 @@
+import { getAllEducations } from '../data/api.js';
+
 export default class EducationDetailPage {
   constructor() {
     this.caseName = '';
@@ -9,8 +11,9 @@ export default class EducationDetailPage {
         <div class="back-button-container">
           <button id="back-button" class="back-button">Kembali</button>
         </div>
+
         <div id="disease-detail" class="disease-detail">
-          <!-- Content will be loaded dynamically -->
+          <!-- Content Dynamis di sini -->
         </div>
       </section>
     `;
@@ -22,14 +25,16 @@ export default class EducationDetailPage {
     );
     this.caseName = id.replace(/-/g, ' ');
 
-    const { database } = await import('../data/course-database.js');
-    const disease = database.find(
-      (item) => item.case.toLowerCase() === this.caseName.toLowerCase(),
+    const database = await getAllEducations();
+
+    const diseaseEducation = database.find(
+      (item) => item.diseaseName.toLowerCase() === this.caseName.toLowerCase(),
     );
 
-    if (disease) {
+    if (diseaseEducation) {
       const detailContainer = document.getElementById('disease-detail');
-      detailContainer.innerHTML = this.createDiseaseDetailHTML(disease);
+      detailContainer.innerHTML =
+        this.createDiseaseDetailHTML(diseaseEducation);
     }
 
     document.getElementById('back-button').addEventListener('click', () => {
@@ -37,43 +42,45 @@ export default class EducationDetailPage {
     });
   }
 
-  createDiseaseDetailHTML(disease) {
+  createDiseaseDetailHTML(diseaseEducation) {
     return `
-      <h1 class="disease-title">${disease.case}</h1>
+      <h1 class="disease-title">${diseaseEducation.diseaseName}</h1>
       <br>
 
       <div class="disease-image-container">
-        <img src="/images/course-images/${disease.case.toLowerCase().replace(/\s+/g, '-')}.jpg" class="disease-image" alt="${disease.case}">
+        <img src="/images/education-images/${diseaseEducation.diseaseName.toLowerCase().replace(/\s+/g, '-')}.jpg" class="disease-image" alt="${diseaseEducation.diseaseName}">
       </div>
       
       <div class="disease-section">
         <h2>Gejala</h2>
-        <p>${disease.gejala}</p>
+        <p>${diseaseEducation.symptoms}</p>
       </div>
       
       <div class="disease-section">
         <h2>Penyebab</h2>
-        <p>${disease.penyebab}</p>
+        <p>${diseaseEducation.cause}</p>
       </div>
       
       <div class="disease-section">
         <h2>Rekomendasi Penanganan</h2>
         <h3>Alami:</h3>
-        <p>${disease.rekomendasi.alami}</p>
+        <p>${diseaseEducation.treatment.biological}</p>
         <h3>Kimiawi:</h3>
-        <p>${disease.rekomendasi.kimiawi}</p>
+        <p>${diseaseEducation.treatment.chemical}</p>
       </div>
       
       <div class="disease-section">
         <h2>Pencegahan</h2>
         <ul>
-          ${disease.pencegahan.map((item) => `<li>${item}</li>`).join('')}
+          ${diseaseEducation.prevention.map((item) => `<li>${item}</li>`).join('')}
         </ul>
       </div>
 
       <div class="disease-section">
         <h2>Pelajari Selengkapnya</h2>
-        <div class="video-container">${disease.video}</div>
+        <div class="video-container"><iframe width="760" height="400" 
+        src="${diseaseEducation.videoEmbed}" 
+        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
       </div>
     `;
   }

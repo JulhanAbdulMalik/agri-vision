@@ -1,3 +1,5 @@
+const Swal = require('sweetalert2');
+
 export function showFormattedDate(date, locale = 'en-US', options = {}) {
   return new Date(date).toLocaleDateString(locale, {
     year: 'numeric',
@@ -21,3 +23,21 @@ export function sleep(time = 1000) {
 // }
 
 // run();
+
+const toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  },
+});
+
+const showToast = (icon = 'success', title = 'Berhasil') => {
+  toast.fire({ icon, title });
+};
+
+export { showToast };

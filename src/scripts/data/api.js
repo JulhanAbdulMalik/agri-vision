@@ -1,6 +1,8 @@
+import { showToast } from '../utils/utils';
+
 const CONFIG = {
-  BASE_URL: 'API_BASE_URL',
-  ACCESS_TOKEN_KEY: 'token',
+  BASE_URL: 'https://api-agrivision.up.railway.app',
+  // ACCESS_TOKEN_KEY: 'token',
 };
 
 const BASE_URL = CONFIG.BASE_URL;
@@ -10,14 +12,13 @@ const BASE_URL = CONFIG.BASE_URL;
 //   return localStorage.getItem(TOKEN_KEY);
 // }
 
-// const ENDPOINTS = {
-//   REGISTER: `${BASE_URL}/register`,
-//   LOGIN: `${BASE_URL}/login`,
-//   STORIES: `${BASE_URL}/stories`,
-//   STORIES_GUEST: `${BASE_URL}/stories/guest`,
-//   STORY_DETAIL: (id) => `${BASE_URL}/stories/${id}`,
-//   NOTIFICATION_SUBSCRIBE: `${BASE_URL}/notifications/subscribe`,
-// };
+const ENDPOINTS = {
+  EDUCATIONS: `${BASE_URL}/educations`,
+  EDUCATION_DETAIL: (id) => `${BASE_URL}/educations/${id}`,
+  DETECTIONS: `${BASE_URL}/detections`,
+
+  // DETECTION_DETAIL: (id) => `${BASE_URL}/detections/${id}`,
+};
 
 // async function getNotes() {
 //   try {
@@ -31,3 +32,16 @@ const BASE_URL = CONFIG.BASE_URL;
 //     hideLoading(loadingSpinner);
 //   }
 // }
+
+async function getAllEducations() {
+  try {
+    const response = await fetch(ENDPOINTS.EDUCATIONS);
+    const responseJson = await response.json();
+
+    return responseJson.data.educations;
+  } catch (error) {
+    showToast('error', 'Education not found!');
+  }
+}
+
+export { getAllEducations };

@@ -1,7 +1,10 @@
+import { getAllEducations } from '../data/api';
+
 export default class EducationPage {
   async render() {
     return `
       <section class="edu-container">
+      
       <div class="search">
         <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari penyakit tanaman">
         <button type="submit" class="btn-search" id="btn-search">Mencari</button>
@@ -17,19 +20,19 @@ export default class EducationPage {
   async afterRender() {
     const courseContainer = document.getElementById('course-container');
 
-    const { database } = await import('../data/course-database.js');
+    const database = await getAllEducations();
 
-    database.forEach((disease) => {
+    database.forEach((diseaseEducation) => {
       const card = document.createElement('div');
       card.className = 'course-card';
       card.innerHTML = `
         <div class="card-image-container">
-          <img src="/images/course-images/${disease.case.toLowerCase().replace(/\s+/g, '-')}.jpg" class="image-card" alt="${disease.case}">
+          <img src="/images/education-images/${diseaseEducation.diseaseName.toLowerCase().replace(/\s+/g, '-')}.jpg" class="image-card" alt="${diseaseEducation.diseaseName}">
         </div>
         <div class="card-text-container">
-          <h3 class="card-title">${disease.case}</h3>
-          <p class="card-feature">${disease.ciri}</p>
-          <button class="card-btn" data-case="${disease.case}">Baca Selengkapnya</button>
+          <h3 class="card-title">${diseaseEducation.diseaseName}</h3>
+          <p class="card-feature">${diseaseEducation.characteristics}</p>
+          <button class="card-btn" data-case="${diseaseEducation.diseaseName}">Baca Selengkapnya</button>
         </div>
       `;
       courseContainer.appendChild(card);
