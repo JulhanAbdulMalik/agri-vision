@@ -66,7 +66,6 @@ export default class DetectionSpecificPage {
   }
 
   async afterRender() {
-    // Implementasi logika setelah render
     this.setupEventListeners();
   }
 
@@ -143,7 +142,8 @@ export default class DetectionSpecificPage {
     }
 
     if (showOptions) {
-      document.querySelector('.detection-options').style.display = 'flex';
+      const options = document.querySelector('.detection-options');
+      if (options) options.style.display = 'flex';
     }
   }
 
