@@ -1,224 +1,212 @@
 export default class DetectionSpecificPage {
   constructor(plantType) {
     this.plantType = plantType;
-    this.mediaStream = null;
+    this.stream = null;
     this.selectedImage = null;
   }
 
   async render() {
     return `
       <section class="detection-specific-container">
-        <h1>Deteksi Tanaman ${this.plantType}</h1>
+        <div class="detection-header">
+          <h1>Deteksi Penyakit Tanaman <em>${this.plantType}</em></h1>
+          <p class="plant-description">Unggah gambar tanaman ${this.plantType} Anda untuk mendeteksi kemungkinan penyakit</p>
+        </div>
         
         <div class="detection-options">
-          <select id="media-source" class="form-input">
-            <option value="none">none</option>
-            <option value="gallery">Pilih dari Galeri</option>
-            <option value="camera">Gunakan Kamera</option>
-          </select>
+          <div class="option-card" id="upload-option">
+            <h3>📂 Unggah Gambar</h3>
+            <p>Pilih gambar dari perangkat</p>
+            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+          </div>
+          
+          <div class="option-card" id="camera-option">
+            <h3>📷 Gunakan Kamera</h3>
+            <p>Ambil foto langsung</p>
+          </div>
         </div>
         
-        <div class="camera-preview-container" style="display:none;">
-          <video id="camera-preview" autoplay playsinline></video>
-          <button type="button" id="capture-btn" class="btn-take-photo">Ambil Foto</button>
+        <div class="camera-preview" id="camera-preview" style="display: none;">
+          <video id="camera-feed" autoplay playsinline></video>
+          
+          <div class="camera-controls">
+            <button id="capture-btn" class="btn-primary">Ambil Foto</button>
+            <button id="cancel-camera-btn" class="btn-secondary">Batal</button>
+          </div>
         </div>
         
-        <div class="image-preview-container">
-          <canvas id="photo-canvas" style="display:none;"></canvas>
-          <input type="file" id="gallery-input" accept="image/*" style="display:none;">
-          <img id="photo-preview" class="photo-preview" style="display:none;">
-          <button type="button" id="retake-btn" class="btn-take-photo" style="display:none;">Ambil Ulang</button>
+        <div class="image-preview" id="image-preview" style="display: none;">
+          <img id="preview-image" src="" alt="Preview Gambar">
+          <div class="preview-controls">
+            <button id="retake-btn" class="btn-secondary">Ganti Gambar</button>
+          </div>
         </div>
         
-        <div class="action-buttons">
-          <button id="detect-btn" class="action-btn">Deteksi</button>
-          <button id="cancel-btn" class="action-btn">Batal</button>
+        <div class="farmer-notes">
+          <h3>Keterangan (Opsional)</h3>
+          <textarea id="farmer-notes" placeholder="Masukkan keterangan tambahan tentang gejala penyakit tanaman Anda..."></textarea>
+        </div>
+        
+        <div class="detection-actions">
+          <button id="detect-btn" class="btn-primary" disabled>Mulai Deteksi</button>
+          <button id="reset-btn" class="btn-secondary">Reset</button>
+        </div>
+        
+        <div class="detection-tips">
+          <h3>Tips Pengambilan Gambar yang Baik:</h3>
+          <ul>
+            <li>Pastikan pencahayaan cukup</li>
+            <li>Fokuskan pada bagian tanaman yang terkena penyakit</li>
+            <li>Ambil gambar dari jarak yang wajar (tidak terlalu jauh/dekat)</li>
+            <li>Hindari bayangan yang mengganggu</li>
+          </ul>
         </div>
       </section>
     `;
   }
 
   async afterRender() {
-    this.mediaSourceSelect = document.getElementById('media-source');
-    this.cameraPreview = document.getElementById('camera-preview');
-    this.cameraContainer = document.querySelector('.camera-preview-container');
-    this.galleryInput = document.getElementById('gallery-input');
-    this.photoPreview = document.getElementById('photo-preview');
-    this.retakeBtn = document.getElementById('retake-btn');
-    this.captureBtn = document.getElementById('capture-btn');
-    this.detectBtn = document.getElementById('detect-btn');
-    this.cancelBtn = document.getElementById('cancel-btn');
-
-    this.mediaSourceSelect.addEventListener('change', (e) => {
-      this.handleMediaSourceChange(e.target.value);
-    });
-
-    this.captureBtn.addEventListener('click', () => {
-      this.capturePhoto();
-    });
-
-    this.retakeBtn.addEventListener('click', () => {
-      this.resetPhotoInput();
-    });
-
-    this.detectBtn.addEventListener('click', () => {
-      this.detectPlant();
-    });
-
-    this.cancelBtn.addEventListener('click', () => {
-      this.cleanup();
-      window.history.back();
-    });
-
-    this.galleryInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) {
-        this.displayPhotoPreview(URL.createObjectURL(e.target.files[0]));
-      }
-    });
+    // Implementasi logika setelah render
+    this.setupEventListeners();
   }
 
-  cleanup() {
-    this.stopCamera();
+  setupEventListeners() {
+    // Upload option
+    document.getElementById('upload-option').addEventListener('click', () => {
+      document.getElementById('image-upload').click();
+    });
 
-    if (this.mediaSourceSelect) {
-      this.mediaSourceSelect.removeEventListener(
-        'change',
-        this.handleMediaSourceChange,
-      );
-    }
-    if (this.captureBtn) {
-      this.captureBtn.removeEventListener('click', this.capturePhoto);
-    }
-    if (this.retakeBtn) {
-      this.retakeBtn.removeEventListener('click', this.resetPhotoInput);
-    }
-    if (this.detectBtn) {
-      this.detectBtn.removeEventListener('click', this.detectPlant);
-    }
-    if (this.cancelBtn) {
-      this.cancelBtn.removeEventListener('click', this.cleanup);
-    }
-    if (this.galleryInput) {
-      this.galleryInput.removeEventListener('change', this.handleImageUpload);
+    // Camera option
+    document
+      .getElementById('camera-option')
+      .addEventListener('click', this.startCamera.bind(this));
+
+    // Image upload handler
+    document.getElementById('image-upload').addEventListener('change', (e) => {
+      this.handleImageUpload(e.target.files[0]);
+    });
+
+    // Capture button
+    document
+      .getElementById('capture-btn')
+      ?.addEventListener('click', this.captureImage.bind(this));
+
+    // Cancel camera button
+    document
+      .getElementById('cancel-camera-btn')
+      ?.addEventListener('click', () => this.stopCamera(true));
+
+    // Retake button
+    document
+      .getElementById('retake-btn')
+      ?.addEventListener('click', this.resetSelection.bind(this));
+
+    // Detect button
+    document
+      .getElementById('detect-btn')
+      ?.addEventListener('click', this.startDetection.bind(this));
+
+    // Reset button
+    document
+      .getElementById('reset-btn')
+      ?.addEventListener('click', this.resetSelection.bind(this));
+
+    // Handle hash change to stop camera
+    window.addEventListener('hashchange', this.stopCamera.bind(this));
+  }
+
+  async startCamera() {
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const cameraFeed = document.getElementById('camera-feed');
+      cameraFeed.srcObject = this.stream;
+
+      document.getElementById('camera-preview').style.display = 'block';
+      document.getElementById('image-preview').style.display = 'none';
+      document.querySelector('.detection-options').style.display = 'none';
+    } catch (err) {
+      console.error('Error accessing camera:', err);
+      alert('Tidak dapat mengakses kamera. Pastikan Anda memberikan izin.');
     }
   }
 
-  async handleMediaSourceChange(source) {
+  stopCamera(showOptions = false) {
+    if (this.stream) {
+      this.stream.getTracks().forEach((track) => track.stop());
+      this.stream = null;
+    }
+
+    const cameraPreview = document.getElementById('camera-preview');
+
+    if (cameraPreview) {
+      cameraPreview.style.display = 'none';
+    }
+
+    if (showOptions) {
+      document.querySelector('.detection-options').style.display = 'flex';
+    }
+  }
+
+  captureImage() {
+    const cameraFeed = document.getElementById('camera-feed');
+    const canvas = document.createElement('canvas');
+    canvas.width = cameraFeed.videoWidth;
+    canvas.height = cameraFeed.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
+
+    this.selectedImage = canvas.toDataURL('image/jpeg');
+    this.displayPreview(this.selectedImage);
+
     this.stopCamera();
+  }
 
-    this.cameraContainer.style.display = 'none';
-    this.photoPreview.style.display = 'none';
-    this.retakeBtn.style.display = 'none';
-
-    if (source === 'none') {
+  handleImageUpload(file) {
+    if (!file.type.match('image.*')) {
+      alert('Silakan pilih file gambar.');
       return;
-    } else if (source === 'camera') {
-      this.cameraContainer.style.display = 'block';
-      try {
-        this.mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment' },
-          audio: false,
-        });
-
-        if (this.cameraPreview) {
-          this.cameraPreview.srcObject = this.mediaStream;
-        }
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-        alert(
-          'Tidak dapat mengakses kamera. Silakan coba lagi atau pilih dari galeri.',
-        );
-
-        this.mediaSourceSelect.value = 'gallery';
-        this.handleMediaSourceChange('gallery');
-      }
-    } else if (source === 'gallery') {
-      this.galleryInput.click();
     }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.selectedImage = e.target.result;
+      this.displayPreview(this.selectedImage);
+    };
+    reader.readAsDataURL(file);
   }
 
-  capturePhoto() {
-    const canvas = document.getElementById('photo-canvas');
-    const context = canvas.getContext('2d');
+  displayPreview(imageSrc) {
+    const previewImage = document.getElementById('preview-image');
+    previewImage.src = imageSrc;
 
-    canvas.width = this.cameraPreview.videoWidth;
-    canvas.height = this.cameraPreview.videoHeight;
-    context.drawImage(this.cameraPreview, 0, 0, canvas.width, canvas.height);
-
-    this.displayPhotoPreview(canvas.toDataURL('image/jpeg'));
-    this.stopCamera();
-    this.cameraContainer.style.display = 'none';
+    document.getElementById('image-preview').style.display = 'block';
+    document.querySelector('.detection-options').style.display = 'none';
+    document.getElementById('detect-btn').disabled = false;
   }
 
-  displayPhotoPreview(imageSrc) {
-    this.photoPreview.src = imageSrc;
-    this.photoPreview.style.display = 'block';
-    this.retakeBtn.style.display = 'block';
-    this.selectedImage = imageSrc;
-  }
-
-  resetPhotoInput() {
-    this.photoPreview.src = '';
-    this.photoPreview.style.display = 'none';
-    this.retakeBtn.style.display = 'none';
-    this.galleryInput.value = '';
+  resetSelection() {
     this.selectedImage = null;
+    document.getElementById('image-preview').style.display = 'none';
+    document.querySelector('.detection-options').style.display = 'flex';
+    document.getElementById('detect-btn').disabled = true;
+    document.getElementById('farmer-notes').value = '';
 
-    this.mediaSourceSelect.value = 'camera';
-    this.handleMediaSourceChange('camera');
+    // Reset file input
+    const fileInput = document.getElementById('image-upload');
+    fileInput.value = '';
   }
 
-  stopCamera() {
-    try {
-      if (this.mediaStream) {
-        this.mediaStream.getTracks().forEach((track) => {
-          track.stop();
-          track.enabled = false;
-        });
-        this.mediaStream = null;
-      }
+  startDetection() {
+    if (!this.selectedImage) return;
 
-      if (this.cameraPreview) {
-        this.cameraPreview.pause();
-        this.cameraPreview.srcObject = null;
-        this.cameraPreview.load();
-      }
-    } catch (error) {
-      console.error('Error stopping camera:', error);
-    }
-  }
+    const notes = document.getElementById('farmer-notes').value;
+    // Simulasi proses deteksi
+    document.getElementById('detect-btn').disabled = true;
+    document.getElementById('detect-btn').innerHTML = 'Memproses...';
 
-  async detectPlant() {
-    if (!this.selectedImage) {
-      alert('Silakan ambil atau unggah gambar terlebih dahulu');
-      return;
-    }
-
-    this.detectBtn.disabled = true;
-    this.detectBtn.textContent = 'Memproses...';
-
-    try {
-      // Here you would typically send the image to your backend API
-      // const result = await yourDetectionAPI(this.selectedImage, this.plantType);
-
-      // For now, we'll simulate a detection result
-      setTimeout(() => {
-        alert(
-          `Deteksi ${this.plantType} berhasil! Hasil akan ditampilkan di sini.`,
-        );
-
-        // Reset button
-        this.detectBtn.disabled = false;
-        this.detectBtn.textContent = 'Deteksi';
-
-        // Here you would navigate to results page or show results
-        // window.location.hash = `#/detection-result/${this.plantType}`;
-      }, 2000);
-    } catch (error) {
-      console.error('Detection error:', error);
-      alert('Gagal melakukan deteksi. Silakan coba lagi.');
-      this.detectBtn.disabled = false;
-      this.detectBtn.textContent = 'Deteksi';
-    }
+    // Simulasi delay proses
+    setTimeout(() => {
+      window.location.hash = `#/hasil-deteksi/${this.plantType}`;
+    }, 1500);
   }
 }
