@@ -1,3 +1,5 @@
+import { showToast } from '../utils/utils';
+
 export default class DetectionSpecificPage {
   constructor(plantType) {
     this.plantType = plantType;
@@ -21,7 +23,7 @@ export default class DetectionSpecificPage {
           </div>
           
           <div class="option-card" id="camera-option">
-            <h3>📷 Gunakan Kamera</h3>
+            <h3>📸 Gunakan Kamera</h3>
             <p>Ambil foto langsung</p>
           </div>
         </div>
@@ -150,6 +152,7 @@ export default class DetectionSpecificPage {
   captureImage() {
     const cameraFeed = document.getElementById('camera-feed');
     const canvas = document.createElement('canvas');
+
     canvas.width = cameraFeed.videoWidth;
     canvas.height = cameraFeed.videoHeight;
     const ctx = canvas.getContext('2d');
@@ -168,6 +171,7 @@ export default class DetectionSpecificPage {
     }
 
     const reader = new FileReader();
+
     reader.onload = (e) => {
       this.selectedImage = e.target.result;
       this.displayPreview(this.selectedImage);
@@ -200,13 +204,16 @@ export default class DetectionSpecificPage {
     if (!this.selectedImage) return;
 
     const notes = document.getElementById('farmer-notes').value;
+
     // Simulasi proses deteksi
     document.getElementById('detect-btn').disabled = true;
-    document.getElementById('detect-btn').innerHTML = 'Memproses...';
+    document.getElementById('detect-btn').innerHTML = 'Mendeteksi Penyakit...';
 
     // Simulasi delay proses
     setTimeout(() => {
-      window.location.hash = `#/hasil-deteksi/${this.plantType}`;
+      window.location.hash = `#/detection/detect-results/${this.plantType.toLowerCase()}`;
+
+      showToast('success', 'Deteksi 100% selesai!');
     }, 1500);
   }
 }

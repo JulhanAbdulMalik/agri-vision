@@ -2,9 +2,10 @@ export default class DetectionPage {
   async render() {
     return `
       <section class="detect-container">
+      
         <div class="detect-content">
           <h1 class="detect-title">Deteksi Penyakit Tanaman</h1>
-          <p class="detect-subtitle">Identifikasi penyakit tanaman secara cepat dan akurat. Pilih jenis tanaman yang ingin kamu deteksi:</p>
+          <p class="detect-subtitle">Identifikasi penyakit tanaman secara cepat dan akurat. Silahkan pilih jenis tanaman yang ingin kamu deteksi</p>
 
           <div class="detect-grid">
             <!-- Card Padi -->
@@ -41,8 +42,8 @@ export default class DetectionPage {
             
           </div>
         </div>
-      </section>
 
+      </section>
     `;
   }
 

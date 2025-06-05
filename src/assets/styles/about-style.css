@@ -1,8 +1,8 @@
 /* About Page */
 .about-container {
-  padding: 4rem 2rem;
-  max-width: 1200px;
+  max-width: 1250px;
   margin: 0 auto;
+  padding: 2rem 1.5rem;
 
   animation: fadeInUp 1.2s ease-out forwards;
 }

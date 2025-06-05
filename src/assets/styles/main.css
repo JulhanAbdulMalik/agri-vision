@@ -3,6 +3,7 @@
 @import url(education-style.css);
 @import url(detection-style.css);
 @import url(about-style.css);
+@import url(detection-result-style.css);
 
 html {
   scroll-behavior: smooth;

@@ -1,6 +1,19 @@
 function extractPathnameSegments(path) {
   const splitUrl = path.split('/');
 
+  // Handle detection result paths
+  if (
+    splitUrl[1] === 'detection' &&
+    splitUrl[2] === 'detect-results' &&
+    splitUrl[3]
+  ) {
+    return {
+      resource: `${splitUrl[1]}/${splitUrl[2]}`,
+      id: splitUrl[3], // 'padi', 'jagung', etc.
+      fullPath: `/detection/detect-results/${splitUrl[3]}`,
+    };
+  }
+
   // Handle detection paths
   if (splitUrl[1] === 'detection' && splitUrl[2]) {
     return {

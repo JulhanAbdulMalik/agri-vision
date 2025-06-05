@@ -1,3 +1,16 @@
+:root {
+  --background: rgb(229, 234, 226);
+  --card-bg: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+  --success: #4caf50;
+  --error: #f44336;
+  --warning: #ff9800;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
 .detect-container {
   min-height: 80vh;
   display: flex;
@@ -184,37 +197,6 @@
   gap: 1rem;
 
   background-color: var(--light);
-}
-
-.btn-primary,
-.btn-secondary {
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-primary {
-  background-color: #4caf50;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #3d8b40;
-}
-
-.btn-secondary {
-  background-color: #dcdcdc;
-  color: #333;
-}
-
-.btn-secondary:hover {
-  background-color: #b5b5b5;
 }
 
 #capture-btn,
