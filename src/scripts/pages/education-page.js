@@ -3,7 +3,11 @@ export default class EducationPage {
     return `
       <section class="edu-container">
       <div class="search">
+<<<<<<< Updated upstream
         <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari">
+=======
+        <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari penyakit tanaman">
+>>>>>>> Stashed changes
         <button type="submit" class="btn-search" id="btn-search">Cari</button>
       </div>
       <div class="course-container" id="course-container">

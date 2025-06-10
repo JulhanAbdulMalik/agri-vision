@@ -27,8 +27,15 @@ export default class AboutPage {
 
         <div class="section-3">
           <h1>Visi Kami</h1>
+<<<<<<< Updated upstream
           <h3>Menjadi mitra digital terpercaya bagi petani Indonesia dalam membangun pertanian yang mandiri, modern, dan berkelanjutan.</h3>
           <h2>Misi Kami</h2>
+=======
+          <p>
+            Menjadi mitra digital terpercaya bagi petani Indonesia dalam membangun pertanian yang mandiri, modern, dan berkelanjutan.
+          </p>
+          <h1>Misi Kami</h1>
+>>>>>>> Stashed changes
           <ul>
             <li>Menyediakan akses deteksi penyakit tanaman yang cepat dan akurat</li>
             <li>Mendorong kolaborasi dan pembelajaran antarpetani melalui komunitas</li>

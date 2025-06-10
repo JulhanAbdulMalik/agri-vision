@@ -7,7 +7,11 @@ export default class EducationDetailPage {
     return `
       <section class="edu-detail-container">
         <div class="back-button-container">
+<<<<<<< Updated upstream
           <button id="back-button" class="back-button">← Kembali</button>
+=======
+          <button id="back-button" class="back-button">←</button>
+>>>>>>> Stashed changes
         </div>
         <div id="disease-detail" class="disease-detail">
           <!-- Content will be loaded dynamically -->
