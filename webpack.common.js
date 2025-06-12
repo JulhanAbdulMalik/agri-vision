@@ -29,7 +29,11 @@ module.exports = {
       patterns: [
         {
           from: path.resolve(__dirname, 'src/assets/images/'),
-          to: path.resolve(__dirname, 'dist/images/'),
+          to: 'images/',
+        },
+        {
+          from: path.resolve(__dirname, 'src/assets/app.webmanifest'),
+          to: 'app.webmanifest',
         },
       ],
     }),
