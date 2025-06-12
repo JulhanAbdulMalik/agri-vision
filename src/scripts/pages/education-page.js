@@ -6,7 +6,7 @@ export default class EducationPage {
       <section class="edu-container">
         <div class="search">
           <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari penyakit tanaman">
-          <button type="submit" class="btn-search" id="btn-search">Mencari</button>
+          <button type="submit" class="btn-search" id="btn-search">Cari</button>
         </div>
         <div class="course-container" id="course-container">
           <!-- Cards will be inserted here dynamically -->

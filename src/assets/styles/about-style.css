@@ -41,8 +41,7 @@
 }
 
 .single-card {
-  background-color: #eeffea;
-  border: 1px solid #caebc3;
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 1.5rem;
   flex: 1 1 200px;
@@ -86,8 +85,7 @@
 
 .cta {
   text-align: center;
-  background-color: #eeffea;
-  border: 1px solid #caebc3;
+  background-color: #ffffff;
   border-radius: 12px;
   padding: 4rem 1rem;
   margin-top: 3rem;

@@ -35,7 +35,7 @@ export default class AboutPage {
 
         <!-- Section 3: Visi & Misi -->
         <section class="section-3">
-          <h1>Visi Kami</h1>
+          <h2>Visi Kami</h2>
           <p>
             Menjadi mitra digital terpercaya bagi petani Indonesia dalam membangun pertanian yang mandiri, modern, dan berkelanjutan.
           </p>
