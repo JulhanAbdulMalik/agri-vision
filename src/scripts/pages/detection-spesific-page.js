@@ -1,3 +1,4 @@
+import { detectPlant } from '../data/api';
 import { showToast } from '../utils/utils';
 
 export default class DetectionSpecificPage {
@@ -200,20 +201,47 @@ export default class DetectionSpecificPage {
     fileInput.value = '';
   }
 
-  startDetection() {
+  /**
+   * Konversi DataURL (base64) ke Blob
+   * @param {string} dataURL
+   * @returns {Blob}
+   */
+  dataURLToBlob(dataURL) {
+    const [meta, base64Data] = dataURL.split(',');
+    const mimeMatch = meta.match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+    const binary = atob(base64Data);
+    const array = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      array[i] = binary.charCodeAt(i);
+    }
+    return new Blob([array], { type: mime });
+  }
+
+  async startDetection() {
     if (!this.selectedImage) return;
 
     const notes = document.getElementById('farmer-notes').value;
+    const detectBtn = document.getElementById('detect-btn');
+    detectBtn.disabled = true;
+    detectBtn.innerText = 'Mendeteksi Penyakit...';
 
-    // Simulasi proses deteksi
-    document.getElementById('detect-btn').disabled = true;
-    document.getElementById('detect-btn').innerHTML = 'Mendeteksi Penyakit...';
+    try {
+      const imageBlob = this.dataURLToBlob(this.selectedImage);
+      const result = await detectPlant(imageBlob, notes);
 
-    // Simulasi delay proses
-    setTimeout(() => {
+      // Simpan hasil ke localStorage
+      localStorage.setItem('lastDetectionResult', JSON.stringify(result));
+
+      showToast('success', 'Deteksi selesai!');
       window.location.hash = `#/detection/detect-results/${this.plantType.toLowerCase()}`;
 
-      showToast('success', 'Deteksi 100% selesai!');
-    }, 1500);
+      window.location.reload();
+    } catch (err) {
+      console.error('Detection error:', err);
+      showToast('error', 'Gagal melakukan deteksi. Silakan coba lagi.');
+      detectBtn.disabled = false;
+      detectBtn.innerText = 'Mulai Deteksi';
+    }
   }
 }

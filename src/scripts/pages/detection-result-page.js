@@ -1,123 +1,93 @@
 import { showToast } from '../utils/utils';
+import html2pdf from 'html2pdf.js';
 
 export default class DetectionResultPage {
   constructor(plantType) {
     this.plantType = plantType;
 
-    // Data hasil deteksi API
-    this.detectionResult = {
-      diseaseName: 'Penyakit X',
-      confidence: 60,
-      description: 'Deskripsi penyakit akan muncul di sini...',
-      symptoms: [
-        'Bercak daun berwarna coklat',
-        'Daun menguning di bagian tepi',
-        'Pertumbuhan tanaman terhambat',
-      ],
-      treatments: [
-        'Pemangkasan bagian yang terinfeksi',
-        'Penyemprotan fungisida organik',
-        'Pengaturan jarak tanam yang lebih baik',
-      ],
-      prevention: [
-        'Rotasi tanaman setiap musim',
-        'Pemilihan bibit yang tahan penyakit',
-        'Pemikian seterusnya...',
-      ],
-      similarDiseases: [
-        { name: 'Penyakit Y', similarity: 70 },
-        { name: 'Penyakit Z', similarity: 30 },
-      ],
-      timestamp: new Date().toLocaleString(),
-    };
+    this.detectionResult = JSON.parse(
+      localStorage.getItem('lastDetectionResult'),
+    );
   }
 
   async render() {
+    const {
+      insertedAt,
+      diseaseName,
+      description,
+      symptoms = [],
+      treatments = [],
+      prevention = [],
+      confidence,
+    } = this.detectionResult;
+
     return `
       <section class="detection-result-container">
         <div class="result-header">
-          <h1>Hasil Deteksi Penyakit <em>${this.plantType}</em></h1>
+          <h1>Hasil Deteksi Penyakit ${this.plantType}</h1>
           <div class="result-meta">
-            <span class="timestamp">${this.detectionResult.timestamp}</span>
+            <span class="timestamp">${insertedAt.split('T')[0]}</span>
             <span class="confidence ${this.getConfidenceClass()}">
-              Akurasi: <strong>${this.detectionResult.confidence}%</strong>
+              Akurasi: <strong>${confidence}</strong>
             </span>
           </div>
         </div>
         
         <div class="result-summary">
           <div class="result-card disease-card">
-            <h2>Penyakit Terdeteksi</h2>
-            <h3>${this.detectionResult.diseaseName}</h3>
-            <p>${this.detectionResult.description}</p>
-
-            <br>
-            <div class="image-placeholder">
-              <p>Gambar hasil deteksi</p>
-            </div>
+            <h2>Terdeteksi Penyakit:</h2>
+            <h3>${diseaseName}</h3>
+            <p>${description}</p>
           </div>
         </div>
         
         <div class="result-details">
           <div class="detail-card">
             <h3>Gejala</h3>
-            <ul class="symptoms-list">
-              ${this.detectionResult.symptoms
-                .map(
-                  (symptom) => `
-                <li>${symptom}</li>
-              `,
-                )
-                .join('')}
-            </ul>
-          </div>
-          
-          <div class="detail-card">
-            <h3>Penanganan</h3>
             <ol class="treatment-steps">
-              ${this.detectionResult.treatments
+              ${symptoms
                 .map(
-                  (treatment, index) => `
+                  (s, i) => `
                 <li>
-                  <span class="step-number">${index + 1}</span>
-                  <span class="step-content">${treatment}</span>
+                  <span class="step-number">${i + 1}</span>
+                  <span class="step-content">${s}</span>
                 </li>
               `,
                 )
                 .join('')}
             </ol>
           </div>
-          
+
           <div class="detail-card">
-            <h3>Pencegahan</h3>
-            <ul class="prevention-list">
-              ${this.detectionResult.prevention
+            <h3>Penanganan</h3>
+            <ol class="treatment-steps">
+              ${treatments
                 .map(
-                  (prevention) => `
-                <li>${prevention}</li>
+                  (t, i) => `
+                <li>
+                  <span class="step-number">${i + 1}</span>
+                  <span class="step-content">${t}</span>
+                </li>
               `,
                 )
                 .join('')}
-            </ul>
+            </ol>
           </div>
-        </div>
-        
-        <div class="similar-diseases">
-          <h3>Penyakit Serupa</h3>
-          <div class="similarity-bars">
-            ${this.detectionResult.similarDiseases
-              .map(
-                (disease) => `
-              <div class="similarity-item">
-                <span class="disease-name">${disease.name}</span>
-                <div class="similarity-bar-container">
-                  <div class="similarity-bar" style="width: ${disease.similarity}%"></div>
-                  <span class="similarity-value">${disease.similarity}%</span>
-                </div>
-              </div>
-            `,
-              )
-              .join('')}
+
+          <div class="detail-card">
+            <h3>Pencegahan</h3>
+            <ol class="treatment-steps">
+              ${prevention
+                .map(
+                  (p, i) => `
+                <li>
+                  <span class="step-number">${i + 1}</span>
+                  <span class="step-content">${p}</span>
+                </li>
+              `,
+                )
+                .join('')}
+            </ol>
           </div>
         </div>
         
@@ -136,15 +106,15 @@ export default class DetectionResultPage {
         <div class="additional-resources">
           <h3>Sumber Daya Tambahan</h3>
           <div class="resources-grid">
-            <a href="#" class="resource-card">
+            <a class="resource-card">
               <h4>▶️</h4>
               <span>Video Penanganan</span>
             </a>
-            <a href="#" class="resource-card">
+            <a class="resource-card">
               <h4>📄</h4>
               <span>Panduan PDF</span>
             </a>
-            <a href="#" class="resource-card">
+            <a class="resource-card">
               <h4>🛒</h4>
               <span>Produk Rekomendasi</span>
             </a>
@@ -155,11 +125,7 @@ export default class DetectionResultPage {
   }
 
   async afterRender() {
-    // Implementasi logika setelah render
     this.setupEventListeners();
-
-    // T: Ambil data hasil deteksi dari API
-    // this.fetchDetectionResult();
   }
 
   setupEventListeners() {
@@ -178,38 +144,46 @@ export default class DetectionResultPage {
   }
 
   getConfidenceClass() {
-    if (this.detectionResult.confidence > 80) return 'high-confidence';
-    if (this.detectionResult.confidence > 50) return 'medium-confidence';
+    if (!this.detectionResult || !this.detectionResult.confidence) return '';
+
+    const confidenceValue = parseFloat(
+      this.detectionResult.confidence.replace('%', ''),
+    );
+
+    if (confidenceValue > 80) return 'high-confidence';
+    if (confidenceValue > 50) return 'medium-confidence';
     return 'low-confidence';
   }
 
-  async fetchDetectionResult() {
-    // T: Implementasi pengambilan data dari API
-    /*
-    try {
-      const response = await fetch(`/api/detection-result/${this.plantType}`);
-      const data = await response.json();
-      this.detectionResult = data;
-      this.updateUIWithResults();
-    } catch (error) {
-      console.error('Error fetching detection result:', error);
-    }
-    */
-  }
-
-  updateUIWithResults() {
-    // T: Update UI dengan data dari API
-    // document.querySelector('.disease-card h3').textContent = this.detectionResult.diseaseName;
-    // document.querySelector('.confidence').textContent = `${this.detectionResult.confidence}%`;
-  }
-
   saveReport() {
-    // T: Implementasi penyimpanan laporan
-    showToast('success', 'Laporan berhasil disimpan!');
+    const element = document.querySelector('.detection-result-container');
+
+    const opt = {
+      margin: 0.2,
+      filename: `laporan-deteksi-${this.plantType.toLowerCase()}.pdf`,
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 1.5 },
+      jsPDF: { unit: 'cm', format: 'legal', orientation: 'landscape' },
+    };
+
+    if (element) {
+      html2pdf()
+        .set(opt)
+        .from(element)
+        .save()
+        .then(() => {
+          showToast('success', 'Laporan berhasil disimpan sebagai PDF!');
+        })
+        .catch((err) => {
+          console.error('Gagal menyimpan PDF:', err);
+          showToast('error', 'Gagal menyimpan laporan!');
+        });
+    } else {
+      showToast('error', 'Konten laporan tidak ditemukan!');
+    }
   }
 
   requestExpertHelp() {
-    // T: Implementasi permintaan bantuan ahli
     showToast('success', 'Permintaan konsultasi ahli telah dikirim!');
   }
 }

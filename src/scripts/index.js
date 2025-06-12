@@ -59,5 +59,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.addEventListener('hashchange', async () => {
     await app.renderPage();
+    window.scrollTo(0, 0);
   });
 });

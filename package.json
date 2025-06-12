@@ -28,6 +28,7 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
+    "html2pdf.js": "^0.10.3",
     "sweetalert2": "^11.6.13"
   }
 }

@@ -4,15 +4,13 @@ export default class EducationPage {
   async render() {
     return `
       <section class="edu-container">
-      
-      <div class="search">
-        <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari penyakit tanaman">
-        <button type="submit" class="btn-search" id="btn-search">Mencari</button>
-      </div>
-      <div class="course-container" id="course-container">
-        <!-- Cards will be inserted here dynamically -->
-      </div>
-        
+        <div class="search">
+          <input type="text" id="search-bar" name="search-bar" class="search-bar" placeholder="Cari penyakit tanaman">
+          <button type="submit" class="btn-search" id="btn-search">Mencari</button>
+        </div>
+        <div class="course-container" id="course-container">
+          <!-- Cards will be inserted here dynamically -->
+        </div>
       </section>
     `;
   }

@@ -55,7 +55,7 @@
 .result-summary {
   display: flex;
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
 }
 
@@ -185,59 +185,6 @@
   align-items: center;
   font-size: 0.9rem;
   font-weight: bold;
-}
-
-.similar-diseases {
-  background-color: var(--card-bg);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 3rem;
-  box-shadow: var(--shadow);
-}
-
-.similar-diseases h3 {
-  color: var(--primary);
-  font-size: 1.3rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.similarity-item {
-  margin-bottom: 1rem;
-}
-
-.disease-name {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-weight: 500;
-}
-
-.similarity-bar-container {
-  width: 100%;
-  height: 1.5rem;
-  background-color: var(--background);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-}
-
-.similarity-bar {
-  height: 100%;
-  background-color: var(--secondary);
-  border-radius: 10px;
-  transition: width 0.5s ease;
-}
-
-.similarity-value {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.8rem;
-  color: var(--primary);
-  font-weight: 800;
 }
 
 .result-actions {

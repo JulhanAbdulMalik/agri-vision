@@ -1,3 +1,5 @@
+import { showToast } from '../utils/utils';
+
 export default class DetectionPage {
   async render() {
     return `
@@ -51,7 +53,11 @@ export default class DetectionPage {
     document.querySelectorAll('.detection-btn').forEach((button) => {
       button.addEventListener('click', () => {
         const plantType = button.getAttribute('data-plant');
-        window.location.hash = `#/detection/${plantType}`;
+        if (plantType === 'padi') {
+          window.location.hash = `#/detection/${plantType}`;
+        } else {
+          showToast('error', 'Deteksi Tanaman belum tersedia!');
+        }
       });
     });
   }
