@@ -3,7 +3,7 @@
   "start_url": "/#/",
   "scope": "/",
   "name": "AgriVision",
-  "short_name": "Story",
+  "short_name": "AgriVision",
   "description": "Aplikasi Petani Cerdas untuk Deteksi Penyakit Tanaman dan Edukasi Pertanian",
   "display": "standalone",
   "background_color": "#ffffff",

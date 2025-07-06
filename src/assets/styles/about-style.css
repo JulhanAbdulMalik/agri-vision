@@ -115,6 +115,41 @@
   background-color: var(--primary-dark);
 }
 
+.button-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#reload-button {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+#reload-button:hover {
+  background-color: #e5e7eb;
+}
+
+#install-button {
+  background-color: #10b981;
+  color: white;
+}
+
+#install-button:hover {
+  background-color: #059669;
+}
+
+.button-icon {
+  font-size: 18px;
+}
+
 /* Responsive for Tablet (768px - 1024px) */
 @media screen and (max-width: 1024px) {
   .about-container {

@@ -19,6 +19,15 @@ export default class AboutPage {
               <p class="icon">🧑‍🌾</p>
               <p>Komunitas Petani</p>
             </div>
+            <div class="single-card" aria-label="Download Aplikasi">
+              <button id="reload-button" class="button-custom" style="margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 500;">
+                Lanjutkan Installasi 🔄️
+              </button>
+
+              <button id="install-button" class="button-custom" style="display: none; width: 100%;">
+                Install AgriVision 📲
+              </button>
+            </div>
           </div>
         </section>
 
@@ -66,5 +75,50 @@ export default class AboutPage {
         window.location.hash = '#/detection';
       });
     }
+
+    const installButton = document.getElementById('install-button');
+    let deferredPrompt;
+
+    // 1. Tangkap event 'beforeinstallprompt'
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+
+      deferredPrompt = e;
+
+      installButton.style.display = 'block';
+      console.log('Event beforeinstallprompt berhasil ditangkap.');
+    });
+
+    // 2. Tambahkan event listener untuk klik pada tombol kustom Anda
+    installButton.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        installButton.style.display = 'none';
+
+        deferredPrompt.prompt();
+
+        const { outcome } = await deferredPrompt.userChoice;
+
+        if (outcome === 'accepted') {
+          console.log('Pengguna menerima instalasi.');
+        } else {
+          console.log('Pengguna menolak instalasi.');
+        }
+
+        deferredPrompt = null;
+      }
+    });
+
+    // // (Opsional) Lacak jika aplikasi sudah berhasil diinstal
+    // window.addEventListener('appinstalled', () => {
+    //   // Sembunyikan tombol instalasi jika masih terlihat
+    //   installButton.style.display = 'none';
+    //   deferredPrompt = null;
+    //   console.log('Aplikasi AgriVision berhasil diinstal!');
+    // });
+
+    const reloadButton = document.getElementById('reload-button');
+    reloadButton.addEventListener('click', () => {
+      location.reload();
+    });
   }
 }
